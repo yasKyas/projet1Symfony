@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrat{% endblock %}
+
+{% block body %}
+    <h1>Contrat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contrat.id }}</td>
+            </tr>
+            <tr>
+                <th>Datedepart</th>
+                <td>{{ contrat.datedepart ? contrat.datedepart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Dateretour</th>
+                <td>{{ contrat.dateretour ? contrat.dateretour|date('Y-m-d') : '' }}</td>
+            </tr>
+             <tr>
+                <th>Matricule</th></th>
+                <td>{{ contrat.voiture }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+
+{% endblock %}

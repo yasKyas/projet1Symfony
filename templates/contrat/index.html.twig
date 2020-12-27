@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contrat index{% endblock %}
+
+{% block body %}
+    <h1>Contrat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datedepart</th>
+                <th>Dateretour</th>
+                <th>Matricule</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contrat in contrats %}
+            <tr>
+                <td>{{ contrat.id }}</td>
+                <td>{{ contrat.datedepart ? contrat.datedepart|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.dateretour ? contrat.dateretour|date('Y-m-d') : '' }}</td>
+                <td>{{ contrat.voiture }}</td>
+
+             
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

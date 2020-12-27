@@ -5,12 +5,7 @@ namespace App\Entity;
 use App\Repository\VoitureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator;
-
-
-
-/**
+use Doctrine\ORM\Mapping as ORM;/**
  * @ORM\Entity(repositoryClass=VoitureRepository::class)
  */
 class Voiture
@@ -23,29 +18,28 @@ class Voiture
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30 )
      */
     private $matricule;
 
-/**
-     * @ORM\Column(type="string", length=20)
-
+    /**
+     * @ORM\Column(type="string", length=30)
+     
      */
     private $marque;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=20)
      */
-    
     private $couleur;
 
     /**
-     * @ORM\Column(type="string",length=20, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $carburant;
 
     /**
-     * @ORM\Column(type="string",length=20, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -53,6 +47,7 @@ class Voiture
      * @ORM\Column(type="datetime")
      */
     private $datemiseencirculation;
+
     /**
      * @ORM\Column(type="boolean")
      */
@@ -63,24 +58,23 @@ class Voiture
      */
     private $nbrplace;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Emplacement::class, mappedBy="idvoiture", cascade={"persist", "remove"})
-     */
-    private $emplacement;
+  
 
     /**
-     * @ORM\ManyToOne(targetEntity=Voiture::class, inversedBy="contrat")
+     * @ORM\OneToMany(targetEntity=Contrat::class, mappedBy="voiture", orphanRemoval=true)
      */
-    private $contrat;
+    private $contrats;
+
+ 
+
+  
 
     public function __construct()
     {
-        $this->contrat = new ArrayCollection();
+      
+        $this->contrats = new ArrayCollection();
     }
-
-    
-
-    public function getId(): ?int
+     public function getId(): ?int
     {
         return $this->id;
     }
@@ -109,24 +103,19 @@ class Voiture
         return $this;
     }
 
-    public function getString(): ?string
-    {
-        return $this->string;
-    }
 
-    public function setString(string $string): self
-    {
-        $this->string = $string;
 
-        return $this;
-    }
+
+
+
+
 
     public function getCouleur(): ?string
     {
         return $this->couleur;
     }
 
-    public function setCouleur(?string $couleur): self
+    public function setCouleur(string $couleur): self
     {
         $this->couleur = $couleur;
 
@@ -168,6 +157,7 @@ class Voiture
 
         return $this;
     }
+
     public function getDisponibilite(): ?bool
     {
         return $this->disponibilite;
@@ -192,54 +182,43 @@ class Voiture
         return $this;
     }
 
-    public function getEmplacement(): ?Emplacement
+  
+
+    /**
+     * @return Collection|Contrat[]
+     */
+    public function getContrats(): Collection
     {
-        return $this->emplacement;
+        return $this->contrats;
     }
 
-    public function setEmplacement(Emplacement $emplacement): self
+    public function addContrat(Contrat $contrat): self
     {
-        $this->emplacement = $emplacement;
-
-        // set the owning side of the relation if necessary
-        if ($emplacement->getIdvoiture() !== $this) {
-            $emplacement->setIdvoiture($this);
+        if (!$this->contrats->contains($contrat)) {
+            $this->contrats[] = $contrat;
+            $contrat->setVoiture($this);
         }
 
         return $this;
     }
 
-    public function getContrat(): ?self
+    public function removeContrat(Contrat $contrat): self
     {
-        return $this->contrat;
-    }
-
-    public function setContrat(?self $contrat): self
-    {
-        $this->contrat = $contrat;
-
-        return $this;
-    }
-
-    public function addContrat(self $contrat): self
-    {
-        if (!$this->contrat->contains($contrat)) {
-            $this->contrat[] = $contrat;
-            $contrat->setContrat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContrat(self $contrat): self
-    {
-        if ($this->contrat->removeElement($contrat)) {
+        if ($this->contrats->removeElement($contrat)) {
             // set the owning side to null (unless already changed)
-            if ($contrat->getContrat() === $this) {
-                $contrat->setContrat(null);
+            if ($contrat->getVoiture() === $this) {
+                $contrat->setVoiture(null);
             }
         }
 
         return $this;
     }
+    
+    public function __toString()
+    {
+        return $this->getMatricule();
+    }
+ 
+    
 }
+

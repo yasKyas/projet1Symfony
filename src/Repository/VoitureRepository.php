@@ -35,6 +35,15 @@ class VoitureRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByAVailibility()
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.disponibilite = :val')
+            ->setParameter('val',1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Voiture
