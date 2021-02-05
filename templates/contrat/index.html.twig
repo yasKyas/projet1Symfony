@@ -9,8 +9,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Datedepart</th>
-                <th>Dateretour</th>
+                <th>Date de depart</th>
+                <th>Date de retour</th>
                 <th>Matricule</th>
             </tr>
         </thead>
@@ -21,6 +21,7 @@
                 <td>{{ contrat.datedepart ? contrat.datedepart|date('Y-m-d') : '' }}</td>
                 <td>{{ contrat.dateretour ? contrat.dateretour|date('Y-m-d') : '' }}</td>
                 <td>{{ contrat.voiture }}</td>
+                <td><a href="{{ path('facture_new', {'id': contrat.id}) }}" class="btn btn-danger btn-sm">facture</a></td>
 
              
             </tr>

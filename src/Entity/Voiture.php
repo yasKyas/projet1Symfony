@@ -65,6 +65,12 @@ class Voiture
      */
     private $contrats;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="voitures")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idagence;
+
  
 
   
@@ -217,6 +223,18 @@ class Voiture
     public function __toString()
     {
         return $this->getMatricule();
+    }
+
+    public function getIdagence(): ?agence
+    {
+        return $this->idagence;
+    }
+
+    public function setIdagence(?agence $idagence): self
+    {
+        $this->idagence = $idagence;
+
+        return $this;
     }
  
     

@@ -5,28 +5,24 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"crossorigin="anonymous">
-         <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+         <nav class="navbar navbar-expand-sm" style="background-color: #9A0000;">
 <div class="container">
-    <a href="#" class="navbar-brand">Location voitures</a>
+    <a class="navbar-brand" style="color: white;">Location voitures</a>
          {% if app.user %}
         <div class="mb-3">
         <div class="collapse navbar-collapse" id="movile-nav">
             <ul class="navbar nav-ml-auto">
                 <li class="nav-item">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            Bienvenue ! {{ app.user.username }}, <a href="{{ path('app_logout') }}">déconnecter</a>
         </li>
             </ul>
         </div>
         {% else %}
         <div class="collapse navbar-collapse" id="movile-nav">
-            <ul class="navbar nav-ml-auto">
-                <li class="nav-item">
-<a href="/login" class="nav-link">Login</a>
-                </li>
-                <li class="nav-item">
-<a href="/register" class="nav-link">subscribe/a>
-                </li>
-            </ul>
+         
+<a href="/login" class="nav-link">Se connecter</a>
+                
+<a href="/register" class="nav-link">s'inscrire</a>
         </div>
              
              {% endif %}

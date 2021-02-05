@@ -6,7 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert ;
+use Symfony\Component\Validator\Constraints as Asserts ;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -21,11 +21,11 @@ class User implements UserInterface
      */
     private $id;
 
-    /**
+   /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
+     * Assert\Email(
+     *    message="the email '{{ value }}' is not a valid email.",
+     *    checkMX =true
      * )
      */
     private $email;
@@ -40,6 +40,12 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="Users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $idAgence;
 
     public function getId(): ?int
     {
@@ -72,11 +78,10 @@ class User implements UserInterface
      * @see UserInterface
      */
     public function getRoles(): array
-    
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = '';
 
         return array_unique($roles);
     }
@@ -119,11 +124,23 @@ class User implements UserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-    public function addRoles(string $roles): self 
+    public function addRoles(string $roles): self
     {
-        if (!in_array($roles, $this->roles)) {
+        if(!in_array($roles,$this->roles)){
             $this->roles[] =$roles;
         }
+        return $this;
+    }
+
+    public function getIdAgence(): ?Agence
+    {
+        return $this->idAgence;
+    }
+
+    public function setIdAgence(?Agence $idAgence): self
+    {
+        $this->idAgence = $idAgence;
+
         return $this;
     }
 }

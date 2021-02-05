@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture{% endblock %}
+
+{% block body %}
+    <h1>Facture</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ facture.id }}</td>
+            </tr>
+            <tr>
+                <th>Datefacture</th>
+                <td>{{ facture.datefacture ? facture.datefacture|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ facture.montant }}</td>
+            </tr>
+            <tr>
+                <th>Payé</th>
+                <td>{{ facture.payee ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('voiture') }}" class="btn btn-danger btn-sm">retour</a>
+
+    <a href="{{ path('app_payee', {'id': facture.id}) }}" class="btn btn-danger btn-sm">payer</a>
+
+  
+{% endblock %}

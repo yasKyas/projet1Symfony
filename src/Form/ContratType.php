@@ -23,6 +23,7 @@ class ContratType extends AbstractType
         $builder
             ->add('datedepart',DateTimeType::class)
             ->add('dateretour',DateTimeType::class)
+            ->add('idclient')
             ->add('voiture',EntityType::class,[
                 'class'=>Voiture::class,
                 'choice_label'=> 'matricule',

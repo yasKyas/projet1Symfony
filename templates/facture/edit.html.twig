@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la Facture{% endblock %}
+
+{% block body %}
+    <h1>Modifier la Facture</h1>
+
+    {{ include('facture/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('facture_index') }}">retour</a>
+
+    {{ include('facture/_delete_form.html.twig') }}
+{% endblock %}

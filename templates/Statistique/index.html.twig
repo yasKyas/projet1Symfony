@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AfficheBaseController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 2000px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+     <h1>Dashboard</h1>
+     
+
+<table class="table" >
+ <tr>
+ <th>Voiture disponible </th>
+      
+      <th>nb voiture a rendre dans le stock</th>
+      <th>nombre facture impayées</th>
+      
+     
+<tr>
+<td>
+{% set i = 0 %}
+{% for voiture in voitures %}
+{% for user in users %}
+{%if voiture.disponibilite==1 and app.user.username== user.email and voiture.idAgence==user.idAgence  %}
+{% set i = i+1 %}
+{%endif%}
+{% endfor %}
+{% endfor %}
+{{ i }}
+</td>
+
+
+<td>
+{% set j = 0 %}
+{% for voiture in voitures %}
+{% for user in users %}
+{%if voiture.disponibilite==0 and app.user.username== user.email and voiture.idAgence==user.idAgence %}
+{% set j = j+1 %}
+{%endif%}
+{% endfor %}
+{% endfor %}
+{{ j }}
+</td>
+<td>
+{% set k = 0 %}
+{% for facture in factures %}
+
+
+{%if facture.payee==0  %}
+{% set k = k+1 %}
+{%endif%}
+
+{% endfor %}
+
+{{ k }}
+</td>
+
+
+
+
+</tr>
+</table>
+
+
+
+
+{% endblock %}

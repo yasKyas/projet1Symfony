@@ -24,6 +24,8 @@ class VoitureType extends AbstractType
             ->add('description',TextareaType::class)
             ->add('datemiseencirculation',DateTimeType::class)
             ->add('nbrplace',IntegerType::class,array('attr' => array('min' => 1)))
+            ->add('idagence')
+
         ;
     }
 

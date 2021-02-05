@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Contrat;
+use App\Entity\Agence;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Voiture;
 use App\Form\VoitureType;
@@ -11,11 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-
 
 class VoitureController extends AbstractController
 {
@@ -25,8 +27,10 @@ class VoitureController extends AbstractController
     public function index(): Response
     {
         $voitures = $this->getDoctrine()->getRepository(Voiture::class)->findAll();
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
         return $this->render('voiture/index.html.twig', [
             'voitures' => $voitures,
+            'users' => $users
         ]);
     }
         /**
@@ -41,6 +45,7 @@ class VoitureController extends AbstractController
      }
     /**
      * @Route("/createvoiture", name="create_voiture")
+     *@IsGranted("ROLE_ADMIN")
      */
 
 
@@ -51,12 +56,12 @@ class VoitureController extends AbstractController
         $form->handleRequest($request);
         echo ($form->isSubmitted());
         if ($form->isSubmitted()) {
-            $voiture->setbooleen(1);
+            $voiture->setdisponibilite(1);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($voiture);
             $entityManager->flush();
 
-            return $this->redirectToRoute('voiture');
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('voiture/ajouter.html.twig', ['form' => $form->createView()]);
@@ -65,6 +70,7 @@ class VoitureController extends AbstractController
 
    /**
      * @Route("/modifiervoiture/{mat}", name="editvoiturebymat")
+     * *@IsGranted("ROLE_ADMIN")
      */
      
         public function modifier(Request $request, String $mat): Response
@@ -82,35 +88,18 @@ class VoitureController extends AbstractController
             $form->handleRequest($request);
             echo ($form->isSubmitted());
             if ($form->isSubmitted()) {
-    
+                $voiture->setdisponibilite(1);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($voiture);
                 $entityManager->flush();
     
-                return $this->redirectToRoute('voiture');
+                return $this->redirectToRoute('admin');
             }
     
             return $this->render('voiture/modifier.html.twig', ['form' => $form->createView()]);
         }
         
-   
-     
-      /**
-     * @Route("/supprimervoiture/{mat}", name="removevoiturebymat")
-     */
-     public function supprimervoiture(string $mat): Response
-     {
-        $entityManager= $this->getDoctrine()->getManager();
-       $voitures=$this->getDoctrine()->getRepository(Voiture::class)->findBy(array('matricule' =>$mat));
-       if(!$voitures){
-           throw $this->createNotFoundException('pas de voiture avec la matricule'.$mat);
-       }
-       $entityManager->remove($voitures[0]);
-$entityManager->flush();
-return $this->redirectToRoute('voiture');
-   
-     }
-    /**
+   /**
     *@route("/admin", name="admin")
     *@IsGranted("ROLE_ADMIN")
     */
@@ -119,17 +108,35 @@ return $this->redirectToRoute('voiture');
         
         $voitures = $this->getDoctrine()->getRepository(Voiture::class)->findAll();
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-        $contrats = $this->getDoctrine()->getRepository(Contrat::class)->findAll();
+        $agences = $this->getDoctrine()->getRepository(Agence::class)->findAll();
 
         return $this->render('admin/index.html.twig', [
             'voitures' => $voitures,
             'users' => $users,
-            'contrats'=>$contrats,
+            'agences'=>$agences,
         ]);
     }
-
-    /**
+    
+     
+      /**
+     * @Route("/supprimervoiture/{mat}", name="removevoiturebymat")
+     * *@IsGranted("ROLE_ADMIN")
+     */
+     public function supprimervoiture(string $mat): Response
+     {
+        $entityManager= $this->getDoctrine()->getManager();
+       $voitures=$this->getDoctrine()->getRepository(Voiture::class)->findBy(array('matricule' =>$mat));
+       if(!$voitures){
+           throw $this->createNotFoundException('pas de voiture avec la matricule'.mat);
+       }
+       $entityManager->remove($voitures[0]);
+$entityManager->flush();
+return $this->redirectToRoute('admin');
+   
+     }
+     /**
      * @Route("/rendre/{mat}", name="app_rendre")
+     * *@IsGranted("ROLE_AGENT")
      */
     public function rendrevoiture(String $mat): Response
     {
@@ -142,7 +149,7 @@ return $this->redirectToRoute('voiture');
         
 
         $entityManager->flush();
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('voiture');
 
 
 

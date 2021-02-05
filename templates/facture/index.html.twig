@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture index{% endblock %}
+
+{% block body %}
+    <h1>Facture index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Montant</th>
+                <th>Payer/th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for facture in factures %}
+            <tr>
+                <td>{{ facture.id }}</td>
+                <td>{{ facture.montant }}</td>
+                <td>{{ facture.payee ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('facture_show', {'id': facture.id}) }}" class="btn btn-danger btn-sm">Voir</a>
+                    <a href="{{ path('facture_edit', {'id': facture.id}) }}" class="btn btn-danger btn-sm">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

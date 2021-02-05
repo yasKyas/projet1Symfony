@@ -6,11 +6,50 @@
 {% block body %}
     <div class="admin-page">
         <div class="container">
+        <div class="row">
+                <div class="col s12">
+                       <h5>Agence</h5>
+
+                    <a href="{{ path('agence_new') }}"  class="btn btn-outline-danger " >Ajouter</a><br>
+                    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Tel agence</th>
+                <th>Adresse ville</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agence in agences %}
+            <tr>
+                <td>{{ agence.id }}</td>
+                <td>{{ agence.Nom }}</td>
+                <td>{{ agence.telagence }}</td>
+                <td>{{ agence.adresseville }}</td>
+                <td>
+                    <a href="{{ path('agence_show', {'id': agence.id}) }}" class="btn btn-danger btn-sm ">Voir</a>
+                    <a href="{{ path('agence_edit', {'id': agence.id}) }}" class="btn btn-danger btn-sm">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+                    </div>
+                    </div>
+        
+    
             <div class="row">
                 <div class="col s12">
                        <h5>Voitures</h5>
 
-                    <a href="{{ path('create_voiture') }}" class=navbar-brand">Ajouter</a><br>
+                    <a href="{{ path('create_voiture') }}"  class="btn btn-outline-danger">Ajouter</a><br>
 <table class="table">
                         <tr>
                             <th>#</th>
@@ -18,6 +57,7 @@
                             <th>Couleur</th>
                             <th>Description</th>
                             <th>Nombre de place</th>
+                            <th>Nom Agence</th>
                             <th>Actions</th>
                         </tr>
  {% set i = 1 %}
@@ -28,15 +68,15 @@
                                 <td>{{ voiture.couleur|e }}  </td>
                                 <td>{{ voiture.Description|e }} </td>
                                 <td> {{ voiture.nbrplace|e }} Places  </td> 
-
+                                <td> {{ voiture.idagence|e }}   </td> 
        							 <td>{% if voiture.disponibilite %}
         
 
-<a href="{{ path('editvoiturebymat', {mat: voiture.matricule}) }}" target="_blank">Modifier</a> 
-<a href="{{ path('contrat_nouveau') }}" target="_blank">Louer</a> 
-{% else%}
+<a href="{{ path('editvoiturebymat', {mat: voiture.matricule}) }}" target="_blank" class="btn btn-danger btn-sm">Modifier</a> 
+<a href="{{ path('removevoiturebymat', {mat: voiture.matricule}) }}" target="_blank" class="btn btn-danger btn-sm">Supprimer</a>
 
-     <a href="{{ path('app_rendre', {mat: voiture.matricule}) }}" target="_blank">rendre</a>    				
+{% else%}
+-   				
 
        					 {% endif%}
 </td>
@@ -50,11 +90,11 @@
                 <div class="col s12 m-t-30">
                 
                     <h5>Utilisateurs</h5>
-                    <a href="{{ path('app_register') }}" class=navbar-brand">Ajouter</a><br>
+                    <a href="{{ path('app_register') }}"  class="btn btn-outline-danger">Ajouter</a><br>
 <table class="table">
                         <tr>
                             <th>#</th>
-                            <th>Adresse email</th>
+                            <th> Email</th>
                             <th>Roles</th>
                             <th>Actions</th>
                         </tr>
@@ -70,7 +110,7 @@
                                 </td>
 
 <td>
-                                    <a href=""><i class="material-icons red-text">supprimer</i></a>
+                                    <a href=""><i class="btn btn-danger btn-sm">Supprimer</i></a>
                                 </td>
                             </tr>
                             {% set i = i+1 %}
@@ -79,37 +119,6 @@
 </div>
 </div>
                 
- <h5>Contrat index</h5>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Datedepart</th>
-                <th>Dateretour</th>
-                 <th>Matricule</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for contrat in contrats %}
-            <tr>
-                <td>{{ contrat.id }}</td>
-                <td>{{ contrat.datedepart ? contrat.datedepart|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.dateretour ? contrat.dateretour|date('Y-m-d') : '' }}</td>
-                <td>{{ contrat.voiture }}</td>
-                <td>
-                    <a href="{{ path('contrat_voir', {'id': contrat.id}) }}">voir</a>
-                    <a href="{{ path('contrat_modif', {'id': contrat.id}) }}">modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
    
     

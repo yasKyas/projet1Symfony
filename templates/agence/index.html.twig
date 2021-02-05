@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agence index{% endblock %}
+
+{% block body %}
+    <h1>Agence index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Tel_agence</th>
+                <th>Adresse_ville</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agence in agences %}
+            <tr>
+                <td>{{ agence.id }}</td>
+                <td>{{ agence.Nom }}</td>
+                <td>{{ agence.telAgence }}</td>
+                <td>{{ agence.adresseVille }}</td>
+                <td>
+                    <a href="{{ path('agence_show', {'id': agence.id}) }}" class="btn btn-danger btn-sm">Voir</a>
+                    <a href="{{ path('agence_edit', {'id': agence.id}) }}" class="btn btn-danger btn-sm">Moddifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('agence_new') }}" class="btn btn-danger btn-sm">Créer</a>
+{% endblock %}

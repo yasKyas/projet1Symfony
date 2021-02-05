@@ -31,11 +31,18 @@ class Contrat
 
   
 
+
     /**
      * @ORM\ManyToOne(targetEntity=Voiture::class, inversedBy="contrats")
      * @ORM\JoinColumn(nullable=false)
      */
     private $voiture;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="contrats")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idclient;
 
   
 
@@ -105,6 +112,18 @@ class Contrat
     public function setVoiture(?voiture $voiture): self
     {
         $this->voiture = $voiture;
+
+        return $this;
+    }
+
+    public function getIdclient(): ?client
+    {
+        return $this->idclient;
+    }
+
+    public function setIdclient(?client $idclient): self
+    {
+        $this->idclient = $idclient;
 
         return $this;
     }

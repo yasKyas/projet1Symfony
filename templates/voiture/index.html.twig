@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello VoitureController!{% endblock %}
+{% block title %}Hello Voiture{% endblock %}
 
 {% block body %}
 <style>
@@ -11,8 +11,20 @@
 <h1>Voitures</h1>
 <ul>
 {% for voiture in voitures %}
-<li>{{ voiture.marque|e }} {{ voiture.couleur|e }} {{ voiture.Description|e }} {{
-voiture.nbrplace|e }} Places </li>
+<li>{{ voiture.marque|e }} {{ voiture.couleur|e }} {{ voiture.description|e }} {{
+voiture.Nbrplace|e }} Places {{ voiture.idagence|e }} 
+{% if voiture.disponibilite %}
+        
+
+<a href="{{ path('contrat_nouveau') }}" class="btn btn-danger btn-sm" target="_blank">louer</a> 
+
+
+{% else%}
+<a href="{{ path('app_rendre', {mat: voiture.matricule}) }}" class="btn btn-danger btn-sm" target="_blank">rendre</a> 				
+
+       					 {% endif%} 
+                            </li>
 {% endfor %}
 </ul>
+
 {% endblock %}
